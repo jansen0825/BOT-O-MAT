@@ -1,3 +1,39 @@
+
+# Local Development
+
+To run the server locally, you need to install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) or [Docker for Windows](https://docs.docker.com/docker-for-windows/)
+
+After which, you can run the stack by using `docker-compose up --build` the first time, then just execute `docker-compose up`.
+
+This will start the following services:
+
+- Backend MongoDB
+- Backend MongoDB Seeds (Seeds the robot tasks given above into a `tasks` collection in Mongo)
+- Backend API (Running on port 4000)
+- Backend Worker
+- [A Local Frontend](http://localhost:3000) (Port 3000)
+
+## Installing new packages
+
+This can be done in two ways:
+
+- Rebuild image by executing `docker-compose build --no-cache` (if your local `package.json` already contains new dependencies that are not yet installed in container). This is prefered as it will persist changes. NOTE: remember to use the correct node version when installing packages, recommended to do `fnm use`.
+- Execute `docker-compose exec <container_name_or_id> yarn add <package_name>`. This is going to install package directly in running docker container. This method is not recommended as it won't sync `package.json` and `yarn.lock` on host machine, and moreover changes are not going to persist if container gets removed (by e.g. executing `docker-compose down`).
+
+## Notes on local development and docker-compose setup
+
+**Important: requires docker-compose file version >= 3.4**
+docker-compose.yml utilizes standard yaml notation, mainly anchors (&) and references (\*) to avoid content duplications.
+
+# Documentation
+
+Some specific container documentation is split out into its own README and can be accessed here:
+
+- [Frontend](frontend/README.md)
+- [API](api/README.md)
+
+
+
 # BOT-O-MAT CHALLENGE
 Use any language to complete this challenge. The implementation is up to you. Having a graphical user interface is highly encouraged, especially with interactive elements. The requirements are:
 1. Start the application by pairing a random robot name with one of the types from the list below. For example: Larry, Bipedal.
@@ -71,38 +107,4 @@ Tasks have a description and an estimated time to complete.
 - Olivia Osby <https://github.com/oosby>
 
 
-
-
-# Local Development
-
-To run the server locally, you need to install [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) or [Docker for Windows](https://docs.docker.com/docker-for-windows/)
-
-After which, you can run the stack by using `docker-compose up --build` the first time, then just execute `docker-compose up`.
-
-This will start the following services:
-
-- Backend MongoDB
-- Backend MongoDB Seeds (Seeds the robot tasks given above into a `tasks` collection in Mongo)
-- Backend API (Running on port 4000)
-- Backend Worker
-- [A Local Frontend](http://localhost:3000) (Port 3000)
-
-## Installing new packages
-
-This can be done in two ways:
-
-- Rebuild image by executing `docker-compose build --no-cache` (if your local `package.json` already contains new dependencies that are not yet installed in container). This is prefered as it will persist changes. NOTE: remember to use the correct node version when installing packages, recommended to do `fnm use`.
-- Execute `docker-compose exec <container_name_or_id> yarn add <package_name>`. This is going to install package directly in running docker container. This method is not recommended as it won't sync `package.json` and `yarn.lock` on host machine, and moreover changes are not going to persist if container gets removed (by e.g. executing `docker-compose down`).
-
-## Notes on local development and docker-compose setup
-
-**Important: requires docker-compose file version >= 3.4**
-docker-compose.yml utilizes standard yaml notation, mainly anchors (&) and references (\*) to avoid content duplications.
-
-# Documentation
-
-Some specific container documentation is split out into its own README and can be accessed here:
-
-- [Frontend](frontend/README.md)
-- [API](api/README.md)
 
