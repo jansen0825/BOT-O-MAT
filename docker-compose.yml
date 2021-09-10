@@ -1,0 +1,61 @@
+version: '3.7'
+
+x-frontend-volumes: &default-frontend-volumes
+  volumes:
+    - ./frontend/public:/app/public
+    - ./frontend/src:/app/src
+    - ./frontend/.env.development:/app/.env.development
+    - ./frontend/package.json:/app/package.json
+    - ./frontend/yarn.lock:/app/yarn.lock
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - dev
+    volumes:
+      - mongodb:/data/db
+    restart: always
+
+  mongo_seed:
+    build:
+      context: ./api/mongo-seeds
+      dockerfile: Dockerfile
+    networks:
+      - dev
+    depends_on:
+      - mongodb
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/src
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: development
+    networks:
+      - dev
+    depends_on:
+      - mongodb
+
+  frontend:
+    <<: *default-frontend-volumes
+    stdin_open: true # Issue in: https://github.com/facebook/create-react-app/issues/8688
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+networks:
+  dev:
+    name: dev
+    driver: bridge
+
+volumes:
+  mongodb:
