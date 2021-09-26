@@ -33,7 +33,6 @@ Some specific container documentation is split out into its own README and can b
 - [API](api/README.md)
 
 
-
 # BOT-O-MAT CHALLENGE
 Use any language to complete this challenge. The implementation is up to you. Having a graphical user interface is highly encouraged, especially with interactive elements. The requirements are:
 1. Start the application by pairing a random robot name with one of the types from the list below. For example: Larry, Bipedal.
