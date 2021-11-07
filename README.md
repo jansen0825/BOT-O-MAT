@@ -23,7 +23,6 @@ This can be done in two ways:
 ## Notes on local development and docker-compose setup
 
 **Important: requires docker-compose file version >= 3.4**
-
 docker-compose.yml utilizes standard yaml notation, mainly anchors (&) and references (\*) to avoid content duplications.
 
 # Documentation
